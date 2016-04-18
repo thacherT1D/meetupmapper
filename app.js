@@ -11,6 +11,7 @@ var passport = require('passport');
 var bluebird = require('bluebird');
 var knex = require('knex');
 var meetupOAuth2Strategy = require('passport-oauth2-meetup').Strategy;
+var dotenv = require('dotenv').load();
 
 var app = express();
 
@@ -20,10 +21,10 @@ require('dotenv').load();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-passport.use(new MeetupOAuth2Strategy({
-  clientID: process.env.MEETUP_KEY,
-  clientSecret: process.env.MEETUP_SECRET,
-  callbackURL: process.env.HOST + "/auth/meetup/callback",
+passport.use(new meetupOAuth2Strategy({
+  clientID: process.env.MEETUP_ID,
+  clientSecret: process.env.MEETUP_KEY,
+  callbackURL: "https://floating-woodland-16787.herokuapp.com/auth/meetup/callback",
   autoGenerateUsername: true
   // scope: ['r_emailaddress', 'r_basicprofile'],
   // state: true,
