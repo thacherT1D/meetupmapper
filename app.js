@@ -10,39 +10,23 @@ var users = require('./routes/users');
 var passport = require('passport');
 var bluebird = require('bluebird');
 var knex = require('knex');
-var meetupOAuth2Strategy = require('passport-oauth2-meetup').Strategy;
-var dotenv = require('dotenv').load();
-
+require('dotenv').load();
+var MeetupOAuth2Strategy = require('passport-oauth2-meetup').Strategy;
 var app = express();
 
-require('dotenv').load();
+//https://secure.meetup.com/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Fauth%2Fmeetup%2Fcallback&client_id=bphv01d3g1ri99st031it4m87h
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-passport.use(new meetupOAuth2Strategy({
-  clientID: process.env.MEETUP_ID,
-  clientSecret: process.env.MEETUP_KEY,
-  callbackURL: "https://floating-woodland-16787.herokuapp.com/auth/meetup/callback",
-  autoGenerateUsername: true
-  // scope: ['r_emailaddress', 'r_basicprofile'],
-  // state: true,
-}, function(accessToken, refreshToken, profile, done) {
-  //asynchronous verification
-  done(null, {
-    id: profile.id,
-    displayName: profile.displayName
-  })
-}));
-
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
+// passport.serializeUser(function(user, done) {
+//   done(null, user);
+// });
+//
+// passport.deserializeUser(function(user, done) {
+//   done(null, user);
+// });
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -60,6 +44,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
+passport.use(new MeetupOAuth2Strategy({
+  clientID: process.env.MEETUP_KEY,
+  clientSecret: process.env.MEETUP_SECRET,
+  callbackURL: "https://localhost:3000/auth/meetup/callback",
+  autoGenerateUsername: true,
+}, function(accessToken, refreshToken, profile, done) {
+  return done(null, profile);
+}));
+
 app.use(function(req, res, next) {
   res.locals.user = req.user;
   next();
@@ -68,16 +61,16 @@ app.use(function(req, res, next) {
 app.use('/', routes);
 app.use('/users', users);
 
-app.get('/auth/meetup', passport.authenticate('meetup', {session: false}),
-function(req, res) {
-  res.json(req.user);
-});
-
-// NOT IN MEETUP OAUTH 2 CONFIG, BUT WAS NEEDED FOR LINKEDIN CONFIG. DO WE NEED IT?
-// app.get('/auth/meetup/callback', passport.authenticate('meetup', {
-//   successRedirect: '/',
-//   failureRedirect: '/login'
-// }));
+app.get('/auth/meetup',
+  passport.authenticate('meetup', {
+    successRedirect: '/profile/meetup',
+    failureRedirect: '/login'
+  })
+  // passport.authenticate('meetup', { session: false }),
+  // function(req, res) {
+  //   res.json(req.user);
+  // }
+);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
