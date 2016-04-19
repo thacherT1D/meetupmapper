@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new MeetupOAuth2Strategy({
+passport.use(new MeetupOAuth2Strategy ({
   clientID: process.env.MEETUP_KEY,
   clientSecret: process.env.MEETUP_SECRET,
   callbackURL: "https://localhost:3000/auth/meetup/callback",
@@ -89,5 +89,12 @@ app.use(function(err, req, res, next) {
   });
 });
 
+app.listen(3000, function (err) {
+  if (err) {
+     console.log(err);
+  } else {
+     console.log("App started at port 3000");
+  }
+});
 
 module.exports = app;
