@@ -56,10 +56,6 @@ app.get('/auth/meetup',
     successRedirect: '/profile/meetup',
     failureRedirect: '/login'
   })
-  // passport.authenticate('meetup', { session: false }),
-  // function(req, res) {
-  //   res.json(req.user);
-  // }
 );
 
 // catch 404 and forward to error handler
