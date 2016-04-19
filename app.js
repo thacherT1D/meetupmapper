@@ -14,8 +14,6 @@ require('dotenv').load();
 var MeetupOAuth2Strategy = require('passport-oauth2-meetup').Strategy;
 var app = express();
 
-//https://secure.meetup.com/oauth2/authorize?response_type=code&redirect_uri=https%3A%2F%2Flocalhost%3A3000%2Fauth%2Fmeetup%2Fcallback&client_id=bphv01d3g1ri99st031it4m87h
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
