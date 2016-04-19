@@ -20,5 +20,19 @@
     "passport-oauth2-meetup": "^1.1.0",
     "pg": "^4.5.3",
     "serve-favicon": "~2.3.0"
-  }
+  },
+  "description": "",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thacherT1D/meetupmapper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thacherT1D/meetupmapper/issues"
+  },
+  "homepage": "https://github.com/thacherT1D/meetupmapper#readme"
 }
