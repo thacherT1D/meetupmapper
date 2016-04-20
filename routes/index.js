@@ -35,7 +35,7 @@ rp({uri:'https://api.meetup.com/2/open_events?key='+key +'&zip='+userZip.toStrin
 // console.log(markers);
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('meetups/index', { title: 'Express' });
+  res.render('index', { title: 'Express' });
 });
 
 module.exports = router;
