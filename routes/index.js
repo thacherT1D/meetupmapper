@@ -3,39 +3,46 @@ var router = express.Router();
 var rp = require('request-promise');
 
 var userZip = 98122;
-var radius = 20;
+var radius = 50;
 var userLat;
 var userLon;
 var key = '7731a58403d7c1d1d331c3e714c349';
 var markers = [];
 
-rp({uri:'https://api.meetup.com/2/open_events?key='+key +'&zip='+userZip.toString()+'&radius'+radius.toString()+'&status=upcoming'
+var r = '&radius=' + radius.toString();
+var z = '&zip=' + userZip.toString();
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  rp({uri:'https://api.meetup.com/2/open_events?key='+key+z+r+'&status=upcoming'
 }).then(function(data) {
   var parseData = (JSON.parse(data));
   for(var i = 0; i < parseData.results.length; i++) {
-    // console.log(parseData.results[i]);
-    try {
-      console.log('WOOT');
-      var nameVal = parseData.results[i].venue.name;
+    var marker = parseData.results[i];
+    if(parseData.results[i].hasOwnProperty('venue')) {
       markers.push({
-        name: nameVal,
-        description: parseData.results[i].venue.zip,
-        rsvpCount: parseData.results[i].yes_rsvp_count,
-        lat: parseData.results[i].venue.lat,
-        lon: parseData.results[i].venue.lon,
+        eventId: marker.id,
+        eventName: marker.name,
+        eventUrl: marker.event_url,
+        fee: marker.fee,
+        venueName: marker.venue.name,
+        rsvpCount: marker.yes_rsvp_count,
+        rsvpLimit: marker.rsvp_limit,
+        lat: marker.venue.lat,
+        lon: marker.venue.lon,
+        venuePhone: marker.venue.phone,
+        description: marker.description,
+        // groupPhoto: marker.group,
       });
-    } catch (err){
-      console.log(err)
     }
   }
-}).catch(function(err) {
-  console.log(err);
+  console.log(markers[0]);
+  res.render('index', { markers: markers });
+  })
 });
 
-// console.log(markers);
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+// router.post('/', function(req, res, next) {
+
+// };
 
 module.exports = router;
