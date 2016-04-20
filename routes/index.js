@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var rp = require('request-promise');
+var helpers = require('../db/helpers');
+var queries = require('../db/queries');
 
 var userZip = 98122;
 var radius = 50;

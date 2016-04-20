@@ -1,4 +1,5 @@
 // *** USER / PROFILE FUNCTIONS *** //
+var queries = require('./queries');
 
 function user_rsvp (user, event) {
   /*

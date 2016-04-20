@@ -1,4 +1,5 @@
 var knex = require('./knex');
+var helpers = require('./helpers');
 
 function getEvents() {
   return knex('events')
