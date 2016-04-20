@@ -11,52 +11,61 @@ var passport = require('passport');
 var bluebird = require('bluebird');
 var knex = require('knex');
 require('dotenv').load();
-var MeetupOAuth2Strategy = require('passport-oauth2-meetup').Strategy;
+var MeetupOAuth2Strategy = require('passport-meetup-oauth2').Strategy;
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-
-app.use(cookieSession({
-  name: 'session',
-  keys: [process.env.SESSION_KEY]
-}));
-
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(passport.initialize());
-app.use(passport.session());
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 passport.use(new MeetupOAuth2Strategy ({
   clientID: process.env.MEETUP_KEY,
   clientSecret: process.env.MEETUP_SECRET,
-  callbackURL: "https://localhost:3000/auth/meetup/callback",
-  autoGenerateUsername: true,
+  callbackURL: 'http://localhost:3000/auth/meetup/callback',
 }, function(accessToken, refreshToken, profile, done) {
-  return done(null, profile);
+  console.log(profile);
+  //store accessToken in database for userauth
+  process.nextTick(function() {
+    return done(null, profile);
+  });
 }));
 
-app.use(function(req, res, next) {
-  res.locals.user = req.user;
-  next();
-});
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(cookieSession({ name: 'session', keys: [process.env.SESSION_KEY] }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// app.use(function(req, res, next) {
+//   res.locals.user = req.user;
+//   next();
+// });
 
 app.use('/', routes);
 app.use('/users', users);
 
 app.get('/auth/meetup',
-  passport.authenticate('meetup', {
-    successRedirect: '/profile/meetup',
-    failureRedirect: '/login'
-  })
-);
+  passport.authenticate('meetup'),
+  function(req, res) {
+
+  });
+
+app.get('/auth/meetup/callback',
+  passport.authenticate('meetup', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
