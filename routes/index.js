@@ -14,20 +14,23 @@ rp({uri:'https://api.meetup.com/2/open_events?key='+key +'&zip='+userZip.toStrin
 }).then(function(data) {
   var parseData = (JSON.parse(data));
   for(var i = 0; i < parseData.results.length; i++) {
+    var marker = parseData.results[i];
     if(parseData.results[i].hasOwnProperty('venue')) {
       markers.push({
-        name: parseData.results[i].venue.name,
-        description: parseData.results[i].venue.zip,
-        rsvpCount: parseData.results[i].yes_rsvp_count,
-        lat: parseData.results[i].venue.lat,
-        lon: parseData.results[i].venue.lon,
-
+        eventId: marker.id,
+        eventName: marker.name,
+        fee: marker.fee,
+        venueName: marker.venue.name,
+        rsvpCount: marker.yes_rsvp_count,
+        lat: marker.venue.lat,
+        lon: marker.venue.lon,
+        venuePhone: marker.venue.phone,
+        description: marker.description,
       })
     }
   }
   console.log(markers);
-});
-// console.log(markers);
+})
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
