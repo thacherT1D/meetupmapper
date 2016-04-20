@@ -8,5 +8,6 @@ function getEvents() {
 }
 
 function addEvent(event) {
-  return knex('')
+  return knex('events')
+    .insert(event);
 }
