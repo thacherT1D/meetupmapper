@@ -8,34 +8,39 @@ var userLat;
 var userLon;
 var key = '7731a58403d7c1d1d331c3e714c349';
 var markers = [];
+var venueName;
 
 rp({uri:'https://api.meetup.com/2/open_events?key='+key +'&zip='+userZip.toString()+'&radius'+radius.toString()+'&status=upcoming'
 }).then(function(data) {
   var parseData = (JSON.parse(data));
   for(var i = 0; i < parseData.results.length; i++) {
-    // console.log(parseData.results[i]);
-    try {
-      console.log('WOOT');
-      var nameVal = parseData.results[i].venue.name;
-      markers.push({
-        name: nameVal,
-        description: parseData.results[i].venue.zip,
-        rsvpCount: parseData.results[i].yes_rsvp_count,
-        lat: parseData.results[i].venue.lat,
-        lon: parseData.results[i].venue.lon,
-      });
-    } catch (err){
-      console.log(err)
-    }
+    // if(parseData.results[i].hasOwnProperty('venue')) {
+      console.log(parseData.results[i].hasOwnProperty('venue'));
+    //   parseData.results[i].venue.name = " ";
+    // }
+    // markers.push({
+    //   name: parseData.results[i].venue.name,
+    // })
   }
-}).catch(function(err) {
-  console.log(err);
 });
-
 // console.log(markers);
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
+  console.log(markers);
 });
+
+
+    //     description: parseData.results[i].venue.zip,
+    //     rsvpCount: parseData.results[i].yes_rsvp_count,
+    //     lat: parseData.results[i].venue.lat,
+    //     lon: parseData.results[i].venue.lon,
+    // }
+
+
+
+// router.post('/', function(req, res, next) {
+
+// };
 
 module.exports = router;
