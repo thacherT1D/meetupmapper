@@ -12,7 +12,7 @@ exports.up = function(knex, Promise) {
       table.text('eventpicurl');
     }),
     knex.schema.createTable('users_events', function ( table) {
-      table.incremenets('userseventsid');
+      table.increments('userseventsid');
       table.integer('userid');
       table.integer('eventid');
     })
