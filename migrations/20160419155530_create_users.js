@@ -1,15 +1,17 @@
 
 exports.up = function(knex, Promise) {
   return Promise.all([
-    knex.schema.createTable('meetupusers', function (table) {
+    knex.schema.createTable('users', function (table) {
       table.increments('userid');
       table.integer('useraccess');
     }),
-    knex.schema.createTable('meetupevents', function (table) {
+    knex.schema.createTable('events', function (table) {
       table.increments('eventid');
       table.integer('eventcode');
+      table.text('eventname');
+      table.text('eventpicurl');
     }),
-    knex.schema.createTable('meetupusers_events', function ( table) {
+    knex.schema.createTable('users_events', function ( table) {
       table.incremenets('userseventsid');
       table.integer('userid');
       table.integer('eventid');
