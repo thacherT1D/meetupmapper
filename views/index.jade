@@ -32,7 +32,9 @@ block content
         .col-md-3
           p More checkboxes here
         .col-md-3
-          p More checkboxes here
+          //- p More checkboxes here
+          for marker in markers  
+            p #{marker.eventName}
 
       .row
         .col-md-12

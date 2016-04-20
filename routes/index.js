@@ -12,7 +12,9 @@ var markers = [];
 var r = '&radius=' + radius.toString();
 var z = '&zip=' + userZip.toString();
 
-rp({uri:'https://api.meetup.com/2/open_events?key='+key+z+r+'&status=upcoming'
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  rp({uri:'https://api.meetup.com/2/open_events?key='+key+z+r+'&status=upcoming'
 }).then(function(data) {
   var parseData = (JSON.parse(data));
   for(var i = 0; i < parseData.results.length; i++) {
@@ -31,21 +33,13 @@ rp({uri:'https://api.meetup.com/2/open_events?key='+key+z+r+'&status=upcoming'
         venuePhone: marker.venue.phone,
         description: marker.description,
         // groupPhoto: marker.group,
-      })
-
+      });
     }
   }
-  console.log(markers);
-})
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-  console.log(markers);
+  console.log(markers[0]);
+  res.render('index', { markers: markers });
+  })
 });
-
-
-
-
 
 // router.post('/', function(req, res, next) {
 
