@@ -1,8 +1,18 @@
+/*body { margin:0; padding:0; }*/
 body {
-  padding: 50px;
+  /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+
+#map { position:absolute; top:0; bottom:0; width:100%;
+  margin-top: 50px;
+  z-index: 1;
+}
+#display {
+  position: absolute;
+  z-index: 2;
 }
