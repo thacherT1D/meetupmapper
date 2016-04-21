@@ -15,7 +15,7 @@
 <script>
 L.mapbox.accessToken = 'pk.eyJ1Ijoic2FuZHlnaWxmaWxsYW4iLCJhIjoiY2luOWg3NGt2MXRqaHR5bHlibWc0c2t1diJ9.yQYGYNLuWKMFPvWoPZAyYg';
 var map = L.mapbox.map('map', 'mapbox.streets')
-    .setView([47.6, -122.3], 12);
+    .setView([{{{lat}}}, {{{lon}}}], 12);
 
 var myLayer = L.mapbox.featureLayer().addTo(map);
 // console.log({{markers.coordinates}});

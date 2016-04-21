@@ -9,11 +9,11 @@ var radius = 50;
 var userLat;
 var userLon;
 var key = '7731a58403d7c1d1d331c3e714c349';
-var mapKey = 'pk.eyJ1Ijoic2FuZHlnaWxmaWxsYW4iLCJhIjoiY2luOWg3NGt2MXRqaHR5bHlibWc0c2t1diJ9.yQYGYNLuWKMFPvWoPZAyYg'
+var mapKey = 'pk.eyJ1Ijoic2FuZHlnaWxmaWxsYW4iLCJhIjoiY2luOWg3NGt2MXRqaHR5bHlibWc0c2t1diJ9.yQYGYNLuWKMFPvWoPZAyYg';
 var markers = [];
 var z;
 var lat = 47.6;
-var lon = 122.3;
+var lon = -122.3;
 var r = '&radius=' + radius.toString();
 
 /* GET home page. */
@@ -22,16 +22,10 @@ router.get('/', function(res, res, next) {
 })
 
 router.get('/map', function(req, res, next) {
-  // z = '&zip=' + req.query.zip;
   if(req.query.lat && req.query.lon) {
     lat = '&lat=' + req.query.lat;
-    // console.log(lat + 'is req.query.lat');
     lon = '&lon=' + req.query.lon;
-    // console.log(lon + 'is req.query.lon');
   }
-  // console.log(req.query);
-  // console.log(req.query.lat + ' is req.query.lat');
-  // console.log(req.query.lon + ' is req.query.lon');
   rp({uri:'https://api.meetup.com/2/open_events?key='+key+lat+lon+'&status=upcoming'
 }).then(function(data) {
   markers = [];
@@ -58,33 +52,21 @@ router.get('/map', function(req, res, next) {
     }
     res.render('map', {
       markers: JSON.stringify(markers),
-      // zip: req.query.zip
+      lat: req.query.lat,
+      lon: req.query.lon
     })
   });
 });
 
 router.post('/zip', function(req, res, next) {
   userZip = req.body.zip;
-  console.log(userZip);
-  var options = {
-    uri:'https://api.mapbox.com/geocoding/v5/mapbox.places/'+userZip+'.json',
-    qs: {
-      access_token: mapKey,
-      autocomplete: true,
-      proximity: [39.8977, 77.0365],
-      country: 'us'
-    },
-    json: true
-  }
-  rp(options).then(function(data) {
-    console.log(data);
+  rp({uri:'https://api.mapbox.com/geocoding/v5/mapbox.places/'+userZip+'.json?country=us&proximity=39.8977%2C%2077.0365&autocomplete=true&access_token='+mapKey})
+  .then(function(data) {
     var parseD = (JSON.parse(data));
     lon = parseD.features[0].center[0];
-    console.log(lon + " is longitude before redirect");
     lat = parseD.features[0].center[1];
-    console.log(lat + ' is lattitude before redirect');
+    res.redirect('/map?lat=' + lat + '&lon=' + lon);
   })
-  res.redirect('/map?lat=' + lat + '&lon=' + lon);
 });
 
 module.exports = router;
