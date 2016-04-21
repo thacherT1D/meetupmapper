@@ -41,3 +41,6 @@ a {
 .loggedIn {
   visibility: visible;
 }
+.submit {
+  margin: 0px 5px 10px 0px;
+}

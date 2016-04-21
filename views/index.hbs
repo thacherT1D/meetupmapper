@@ -1,14 +1,31 @@
 <div id="container">
-<div class="row"><
-  <div id="displayTop" class="col-md-12">
-      <h1>goodbye</h1>
+  <div class="row"><
+    <div id="displayTop" class="col-md-12">
+        <h1>goodbye</h1>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div id="display" class="col-md-12">
-    <p>
-      Authentic pinterest fanny pack poutine street art kickstarter. Neutra chicharrones affogato squid, quinoa chartreuse hella you probably haven't heard of them. Selfies messenger bag aesthetic tousled truffaut, heirloom YOLO 3 wolf moon keffiyeh waistcoat irony tattooed kale chips trust fund cornhole. Fixie man bun DIY marfa you probably haven't heard of them pickled, roof party aesthetic deep v 90's hoodie twee celiac. Squid humblebrag single-origin coffee shoreditch cardigan polaroid affogato organic, typewriter four loko readymade XOXO godard hammock flexitarian. Pitchfork photo booth listicle, vegan celiac kinfolk mumblecore. Raw denim pabst jean shorts hoodie.
-    </p>
+  <div class="row">
+    <div id="display" class="col-md-12">
+      <p>
+        Authentic pinterest fanny pack poutine street art kickstarter.
+      </p>
+      <form method="POST" action="/">
+        <fieldset class="form-group">
+          <label for="zipcode">Zipcode</label>
+          <input id="zipcode" class="form-control"  placeholder="12345">
+        </fieldset>
+        <fieldset class="form-group">
+          <label for="categories">Categories</label>
+          <select multiple class="form-control" id="exampleSelect2">
+            <option>Arts & Culture</option>
+            <option>Book Clubs</option>
+            <option>Career & Business</option>
+            <option>Cars & Motorcycles</option>
+            <option>Community & Environment</option>
+          </select>
+        </fieldset>
+        <button type="submit" class="btn btn-primary submit">Submit</button>
+      </form>
+    </div>
   </div>
-</div>
 </div>
