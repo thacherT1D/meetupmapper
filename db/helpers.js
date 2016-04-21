@@ -4,6 +4,49 @@ var rp = require('request-promise');
 
 var key = '7731a58403d7c1d1d331c3e714c349';
 
+// *** MEETUP API FUNCTIONS *** //
+
+function get_events (zipcode, category) {
+  var userZip = '&zip=' + zipcode;
+  var markers = [];
+  return rp({ uri:'https://api.meetup.com/2/open_events?key=' + key + userZip +'&status=upcoming'}).then(function(data) {
+    var eventData = (JSON.parse(data));
+    for(var i = 0; i < eventData.results.length; i++) {
+      var marker = eventData.results[i];
+      if (eventData.results[i].hasOwnProperty('venue')) {
+        markers.push({
+          eventId: marker.id,
+          eventName: marker.name,
+          eventUrl: marker.event_url,
+          fee: marker.fee,
+          venueName: marker.venue.name,
+          rsvpCount: marker.yes_rsvp_count,
+          rsvpLimit: marker.rsvp_limit,
+          lat: marker.venue.lat,
+          lon: marker.venue.lon,
+          venuePhone: marker.venue.phone,
+          description: marker.description,
+        });
+      }
+    }
+    return markers;
+  });
+}
+
+function display_event (eventID) {
+  /*
+    1. make request to meetup API with event ID
+    2. display clipped info on popup
+
+    -- OR --
+    1. check db for cached event by ID
+    2. if not, pull info from meetup api, cache, and display
+    3. otherwise, display info from cache
+  */
+}
+
+// *** USER FUNCTIONS *** //
+
 function user_rsvp (user, event) {
   /*
     1. get event ID from google maps click
@@ -28,45 +71,6 @@ function user_unlike_event (user, event) {
   */
 }
 
-// *** MEETUP API FUNCTIONS *** //
-
-function get_events (zipcode, category, timeframe) { //other options? more granular categories?
-  rp({ uri:'https://api.meetup.com/2/open_events?key=' + key + zipcode +'&status=upcoming'}).then(function(data) {
-  var parseData = (JSON.parse(data));
-  for(var i = 0; i < parseData.results.length; i++) {
-    var marker = parseData.results[i];
-    if(parseData.results[i].hasOwnProperty('venue')) {
-      markers.push({
-        eventId: marker.id,
-        eventName: marker.name,
-        eventUrl: marker.event_url,
-        fee: marker.fee,
-        venueName: marker.venue.name,
-        rsvpCount: marker.yes_rsvp_count,
-        rsvpLimit: marker.rsvp_limit,
-        lat: marker.venue.lat,
-        lon: marker.venue.lon,
-        venuePhone: marker.venue.phone,
-        description: marker.description,
-        // groupPhoto: marker.group,
-      });
-    }
-  }
-});
-}
-
-function display_event (eventID) {
-  /*
-    1. make request to meetup API with event ID
-    2. display clipped info on popup
-
-    -- OR --
-    1. check db for cached event by ID
-    2. if not, pull info from meetup api, cache, and display
-    3. otherwise, display info from cache
-  */
-}
-
 // *** GOOGLEMAPS API FUNCTIONS *** //
 
 function map_add_events (eventArray) {
@@ -76,6 +80,15 @@ function map_add_events (eventArray) {
     4. If user is logged in, RSVP and SAVE buttons are loaded
     5. If event timeframe < 24 hours from now, pin is gold
   */
+}
+
+module.exports = {
+  user_rsvp: user_rsvp,
+  user_like_event: user_like_event,
+  user_unlike_event: user_unlike_event,
+  get_events: get_events,
+  display_event: display_event,
+  map_add_events: map_add_events
 }
 
 //there will likely be helper events to join the users / events tables and facilitate data transfer
