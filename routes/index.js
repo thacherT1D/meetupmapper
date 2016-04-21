@@ -45,7 +45,7 @@ router.get('/map', function(req, res, next) {
           'marker-symbol': 'star',
           'marker-color': '#ff8888',
           'marker-size': 'large',
-          'city': marker.name + marker.description
+          'city': marker.name
         }
         });
       }
