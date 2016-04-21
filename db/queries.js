@@ -20,10 +20,7 @@ function addEvent(event) {
 }
 
 function addUser(accessToken) {
-  console.log('made to helper function');
-  Users().insert({ useraccess: accessToken }).then(function() {
-    res.redirect('/');
-  });
+  return Users().insert({ useraccess: accessToken });
 }
 
 module.exports = {
