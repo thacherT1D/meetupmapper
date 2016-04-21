@@ -1,8 +1,12 @@
 var express = require('express');
 var router = express.Router();
+
 var rp = require('request-promise');
+
 var helpers = require('../db/helpers');
 var queries = require('../db/queries');
+//var validations = require('./validations');
+//var auth = require('./auth');
 
 var userZip = 98122;
 var radius = 50;
@@ -14,7 +18,6 @@ var markers = [];
 var r = '&radius=' + radius.toString();
 var z = '&zip=' + userZip.toString();
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
   rp({uri:'https://api.meetup.com/2/open_events?key='+key+z+r+'&status=upcoming'
 }).then(function(data) {
@@ -43,8 +46,8 @@ router.get('/', function(req, res, next) {
   })
 });
 
-// router.post('/', function(req, res, next) {
-
-// };
+router.get('/events', function(req, res, next) {
+  //helpers.getEvents();
+});
 
 module.exports = router;
