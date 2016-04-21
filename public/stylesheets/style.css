@@ -35,3 +35,9 @@ a {
   width: 30%;
   float: right;
 }
+.notLoggedIn {
+  visibility: visible;
+}
+.loggedIn {
+  visibility: visible;
+}
