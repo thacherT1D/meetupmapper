@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema.createTable('users', function (table) {
       table.increments('userid');
-      table.integer('useraccess');
+      table.text('useraccess');
     }),
     knex.schema.createTable('events', function (table) {
       table.increments('eventid');
@@ -20,5 +20,9 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('books');
+  return Promise.all([
+    knex.schema.dropTable('users'),
+    knex.schema.dropTable('events'),
+    knex.schema.dropTable('users_events')
+  ]);
 };

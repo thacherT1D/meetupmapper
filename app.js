@@ -29,8 +29,8 @@ passport.use(new MeetupOAuth2Strategy ({
   clientSecret: process.env.MEETUP_SECRET,
   callbackURL: 'http://localhost:3000/auth/meetup/callback',
 }, function(accessToken, refreshToken, profile, done) {
-  console.log(profile);
-  //store accessToken in database for userauth
+  console.log(accessToken);
+  queries.addUser(accessToken);
   process.nextTick(function() {
     return done(null, profile);
   });
