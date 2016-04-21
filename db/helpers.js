@@ -1,5 +1,8 @@
 // *** USER / PROFILE FUNCTIONS *** //
 var queries = require('./queries');
+var rp = require('request-promise');
+
+var key = '7731a58403d7c1d1d331c3e714c349';
 
 function user_rsvp (user, event) {
   /*
@@ -28,11 +31,28 @@ function user_unlike_event (user, event) {
 // *** MEETUP API FUNCTIONS *** //
 
 function get_events (zipcode, category, timeframe) { //other options? more granular categories?
-  /*
-    1. Make call to Meetup API with parameters above
-    2. Create array of event objects as such: [ { name, latitude, longitude, description, thumbnailUrl} ]
-    3. Return array (to map_add_events function below)
-  */
+  rp({ uri:'https://api.meetup.com/2/open_events?key=' + key + zipcode +'&status=upcoming'}).then(function(data) {
+  var parseData = (JSON.parse(data));
+  for(var i = 0; i < parseData.results.length; i++) {
+    var marker = parseData.results[i];
+    if(parseData.results[i].hasOwnProperty('venue')) {
+      markers.push({
+        eventId: marker.id,
+        eventName: marker.name,
+        eventUrl: marker.event_url,
+        fee: marker.fee,
+        venueName: marker.venue.name,
+        rsvpCount: marker.yes_rsvp_count,
+        rsvpLimit: marker.rsvp_limit,
+        lat: marker.venue.lat,
+        lon: marker.venue.lon,
+        venuePhone: marker.venue.phone,
+        description: marker.description,
+        // groupPhoto: marker.group,
+      });
+    }
+  }
+});
 }
 
 function display_event (eventID) {
