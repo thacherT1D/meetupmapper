@@ -1,7 +1,7 @@
 var knex = require('./knex');
 var helpers = require('./helpers');
 
-// get tables with knex
+// *** get tables with knex ***
 
 function Events() {
   return knex('events');
@@ -27,7 +27,7 @@ function addUser(accessToken) {
   return Users().insert({ useraccess: accessToken });
 }
 
-// module exports
+// *** module exports ***
 
 module.exports = {
   getEvents: getEvents,
