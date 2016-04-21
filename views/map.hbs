@@ -19,35 +19,9 @@ var map = L.mapbox.map('map', 'mapbox.streets')
 
 var myLayer = L.mapbox.featureLayer().addTo(map);
 // console.log({{markers.coordinates}});
-// var geoJson = {{markers}};
-var geoJson = [{
-    type: 'Feature',
-    "geometry": { "type": "Point", "coordinates": [-122.3, 47.6]},
-    "properties": {
-        "image":  "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Cherry_Blossoms_and_Washington_Monument.jpg/320px-Cherry_Blossoms_and_Washington_Monument.jpg",
-        "url": "https://en.wikipedia.org/wiki/Washington,_D.C.",
-        "marker-symbol": "star",
-        "marker-color": "#ff8888",
-        "marker-size": "large",
-    }
-}, {
-    type: 'Feature',
-    "geometry": { "type": "Point", "coordinates": [-122.5, 47.6]},
-    "properties": {
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Chicago_sunrise_1.jpg/640px-Chicago_sunrise_1.jpg",
-        "url": "https://en.wikipedia.org/wiki/Chicago",
-        "marker-color": "#ff8888",
-    }
-}, {
-    type: 'Feature',
-    "geometry": { "type": "Point", "coordinates": [-122.4, 47.6]},
-    "properties": {
-        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/NYC_Top_of_the_Rock_Pano.jpg/640px-NYC_Top_of_the_Rock_Pano.jpg",
-        "url": "https://en.wikipedia.org/wiki/New_York_City",
-        "marker-color": "#ff8888",
-    }
-}];
+// console.log({{{markers}}});
 
+var geoJson = {{{markers}}};
 
 // Add custom popups to each using our custom feature properties
 myLayer.on('layeradd', function(e) {

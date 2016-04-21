@@ -4,7 +4,7 @@ var rp = require('request-promise');
 var helpers = require('../db/helpers');
 var queries = require('../db/queries');
 
-var userZip = 98122;
+var userZip;
 var radius = 50;
 var userLat;
 var userLon;
@@ -30,7 +30,7 @@ router.get('/map', function(req, res, next) {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [marker.venue.lat, marker.venue.lon]
+          coordinates: [marker.venue.lon, marker.venue.lat]
           // coordinates: [47.6, -122.3]
         },
         properties: {
@@ -46,7 +46,7 @@ router.get('/map', function(req, res, next) {
     }
     console.log(markers[0].type);
     res.render('map', {
-      markers: markers
+      markers: JSON.stringify(markers)
 
   })
   });
