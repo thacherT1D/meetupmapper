@@ -37,7 +37,8 @@ function get_events (zipcode, category) {
 function get_events2 (lat, lon, category) {
   var userZip = '&zip=' + zipcode;
   var markers = [];
-  return rp({uri: 'https://api.meetup.com/2/open_events?key='+key+lat+lon+'&status=upcoming' }).then(function(data) {
+  var details = [];
+  return rp({ uri: 'https://api.meetup.com/2/open_events?key=' + key + lat + lon + '&status=upcoming' }).then(function(data) {
     markers = [];
     var eventData = (JSON.parse(data));
     for(var i = 0; i < eventData.results.length; i++) {
@@ -73,6 +74,7 @@ function get_events2 (lat, lon, category) {
         });
       }
     }
+    return markers, details;
   });
 }
 

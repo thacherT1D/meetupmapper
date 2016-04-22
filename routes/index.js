@@ -9,11 +9,6 @@ var queries = require('../db/queries');
 //var auth = require('./auth');
 
 //var radius = 50;
-//var userLat;
-//var userLon;
-
-// var r = '&radius=' + radius.toString();
-// var z = '&zip=' + userZip.toString();
 
 router.get('/', function(req, res, next) {
   res.render('index');
