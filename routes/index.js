@@ -6,14 +6,12 @@ var queries = require('../db/queries');
 
 var userZip;
 var radius = 50;
-var userLat;
-var userLon;
 var key = '7731a58403d7c1d1d331c3e714c349';
 var mapKey = 'pk.eyJ1Ijoic2FuZHlnaWxmaWxsYW4iLCJhIjoiY2luOWg3NGt2MXRqaHR5bHlibWc0c2t1diJ9.yQYGYNLuWKMFPvWoPZAyYg';
 var markers = [];
 var z;
-var lat = 47.6;
-var lon = -122.3;
+var lat = '&lat=47.63522';
+var lon = '&lon=-122.344272';
 var r = '&radius=' + radius.toString();
 
 /* GET home page. */
@@ -22,10 +20,12 @@ router.get('/', function(res, res, next) {
 })
 
 router.get('/map', function(req, res, next) {
+
   if(req.query.lat && req.query.lon) {
     lat = '&lat=' + req.query.lat;
     lon = '&lon=' + req.query.lon;
   }
+  console.log('https://api.meetup.com/2/open_events?key='+key+lat+lon+'&status=upcoming');
   rp({uri:'https://api.meetup.com/2/open_events?key='+key+lat+lon+'&status=upcoming'
 }).then(function(data) {
   markers = [];
@@ -52,8 +52,8 @@ router.get('/map', function(req, res, next) {
     }
     res.render('map', {
       markers: JSON.stringify(markers),
-      lat: req.query.lat,
-      lon: req.query.lon
+      lat: req.query.lat || 47.63522,
+      lon: req.query.lon || -122.344272
     })
   });
 });

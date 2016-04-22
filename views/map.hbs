@@ -29,14 +29,11 @@ myLayer.on('layeradd', function(e) {
         feature = marker.feature;
 
     // Create custom popup content
-    var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.url + '">' +
-                            '<img src="' + feature.properties.image + '" />' +
-                            feature.properties.city +
-                        '</a>';
+    var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.url + '">' + '<img src="' + feature.properties.image + '" />' + feature.properties.city + '</a>';
 
     // http://leafletjs.com/reference.html#popup
     marker.bindPopup(popupContent,{
-        closeButton: false,
+        closeButton: true,
         minWidth: 320
     });
 });
