@@ -24,7 +24,9 @@ router.get('/events', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-
+  helpers.get_events2(lat, lon, req.body.categories).then(markers => {
+    console.log(markers);
+  });
 
 /* *** THIS SHIT WORKS DO NOT THROW IT AWAY ***
   helpers.convert_zip(req.body.zipcode).then(lat => {

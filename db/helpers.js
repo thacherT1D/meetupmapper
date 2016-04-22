@@ -34,6 +34,48 @@ function get_events (zipcode, category) {
   });
 }
 
+function get_events2 (lat, lon, category) {
+  var userZip = '&zip=' + zipcode;
+  var markers = [];
+  return rp({uri: 'https://api.meetup.com/2/open_events?key='+key+lat+lon+'&status=upcoming' }).then(function(data) {
+    markers = [];
+    var eventData = (JSON.parse(data));
+    for(var i = 0; i < eventData.results.length; i++) {
+      var marker = eventData.results[i];
+      if(eventData.results[i].hasOwnProperty('venue')) {
+        markers.push({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [marker.venue.lon, marker.venue.lat]
+          },
+          properties: {
+            image: '',
+            url: marker.event_url,
+            'marker-symbol': 'star',
+            'marker-color': '#ff8888',
+            'marker-size': 'large',
+            'city': marker.name
+          }
+        });
+        details.push({
+          eventId: marker.id,
+          eventName: marker.name,
+          eventUrl: marker.event_url,
+          fee: marker.fee,
+          venueName: marker.venue.name,
+          rsvpCount: marker.yes_rsvp_count,
+          rsvpLimit: marker.rsvp_limit,
+          lat: marker.venue.lat,
+          lon: marker.venue.lon,
+          venuePhone: marker.venue.phone,
+          description: marker.description,
+        });
+      }
+    }
+  });
+}
+
 function convert_zip (userZip) {
   return rp({uri:'https://api.mapbox.com/geocoding/v5/mapbox.places/'+userZip+'.json?country=us&proximity=39.8977%2C%2077.0365&autocomplete=true&access_token='+mapKey}) .then(function(data) {
     var parseD = (JSON.parse(data));
