@@ -26,8 +26,15 @@ router.get('/map', function(req, res, next) {
     lat = '&lat=' + req.query.lat;
     lon = '&lon=' + req.query.lon;
   }
-  console.log('https://api.meetup.com/2/open_events?key='+key+lat+lon+'&status=upcoming');
-  rp({uri:'https://api.meetup.com/2/open_events?key='+key+lat+lon+'&status=upcoming'
+
+  // if(req.query.category) {
+  //   category = '&category=' + req.query.category;
+  // }
+
+  category = '&category=30';
+
+  console.log('https://api.meetup.com/2/open_events?key='+key+lat+lon+category+'&status=upcoming');
+  rp({uri:'https://api.meetup.com/2/open_events?key='+key+lat+lon+category+'&status=upcoming'
 }).then(function(data) {
   markers = [];
   var parseData = (JSON.parse(data));
@@ -77,6 +84,7 @@ router.get('/map', function(req, res, next) {
 router.post('/zip', function(req, res, next) {
   userZip = req.body.zip;
   category = req.body.category;
+
   rp({uri:'https://api.mapbox.com/geocoding/v5/mapbox.places/'+userZip+'.json?country=us&proximity=39.8977%2C%2077.0365&autocomplete=true&access_token='+mapKey})
   .then(function(data) {
     var parseD = (JSON.parse(data));
