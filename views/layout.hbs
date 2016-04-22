@@ -18,14 +18,16 @@
     L.mapbox.accessToken = 'pk.eyJ1IjoiYXVzdGluc3ByYWd1ZSIsImEiOiJjaW44ZWxxYTQwdmIzd3pseWJqd2EyeWI1In0.TJwbshYK7dxYgnDhd87rDA';
     var map = L.mapbox.map('map', 'mapbox.streets')
       .setView([43.229, -79.453], 5);
+      // .setView([{{{lat}}}, {{{lon}}}], 9);
 
       var myLayer = L.mapbox.featureLayer().addTo(map);
+
+      // var geoJson = {{{markers}}};
 
       var geoJson = [{
           type: 'Feature',
           "geometry": { "type": "Point", "coordinates": [-77.03, 38.90]},
           "properties": {
-              "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Cherry_Blossoms_and_Washington_Monument.jpg/320px-Cherry_Blossoms_and_Washington_Monument.jpg",
               "url": "https://en.wikipedia.org/wiki/Washington,_D.C.",
               // "marker-symbol": "star",
               "marker-color": "#ff8888",
@@ -36,7 +38,6 @@
           type: 'Feature',
           "geometry": { "type": "Point", "coordinates": [-87.63, 41.88]},
           "properties": {
-              "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Chicago_sunrise_1.jpg/640px-Chicago_sunrise_1.jpg",
               "url": "https://en.wikipedia.org/wiki/Chicago",
               "marker-color": "#ff8888",
               "city": "Chicago"
@@ -45,7 +46,6 @@
           type: 'Feature',
           "geometry": { "type": "Point", "coordinates": [-74.00, 40.71]},
           "properties": {
-              "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/NYC_Top_of_the_Rock_Pano.jpg/640px-NYC_Top_of_the_Rock_Pano.jpg",
               "url": "https://en.wikipedia.org/wiki/New_York_City",
               "marker-color": "#ff8888",
               "city": "New York City"
@@ -58,22 +58,20 @@
               feature = marker.feature;
 
           // Create custom popup content
-          var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.url + '">' +
-                                  '<img src="' + feature.properties.image + '" />' +
-                                  feature.properties.city +
-                              '</a>';
+          var popupContent =  '<a target="_blank" class="popup" href="'
+          + feature.properties.url + '">'
+            + feature.properties.city
+            + '</a>';
 
           // http://leafletjs.com/reference.html#popup
           marker.bindPopup(popupContent,{
-              closeButton: false,
-              minWidth: 320
+              closeButton: true,
+              minWidth: 200,
           });
       });
 
       // Add features to the map
       myLayer.setGeoJSON(geoJson);
-
-
 
     </script>
     <div>
@@ -81,36 +79,17 @@
         <a class="navbar-brand" href="#">MeetUpMappr</a>
         <ul class="nav navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item pull-xs-right notLoggedIn">
             <a class="nav-link" href="/auth/meetup">Login</a>
           </li>
-          <li class="dropdown pull-xs-right loggedIn">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Account
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <a class="dropdown-item" href="http://www.meetup.com/">My MeetUps</a>
-              <a class="dropdown-item" href="#">Profile</a>
-            </div>
+          <li class="nav-item pull-xs-right">
+            <a class="dropdown-item" href="http://www.meetup.com/">My MeetUps</a>
           </li>
         </ul>
       </nav>
     </div>
+
     {{{body}}}
-    <!-- <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <p><small> © Meetup Mapper 2016 </small></p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <p><small> Made in Seattle. </small></p>
-        </div>
-      </div>
-    </div> -->
+
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
   </body>

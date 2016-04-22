@@ -1,4 +1,7 @@
 /*body { margin:0; padding:0; }*/
+* {
+  box-sizing: border-box;
+}
 body {
   /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -39,12 +42,12 @@ a {
   visibility: visible;
 }
 .loggedIn {
-  visibility: visible;
+  visibility: hidden;;
 }
 .submit {
   margin: 0px 5px 10px 0px;
 }
 
 #categories {
-  
+
 }
