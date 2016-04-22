@@ -6,14 +6,12 @@ var queries = require('../db/queries');
 
 var userZip;
 var radius = 50;
-var userLat;
-var userLon;
 var key = '7731a58403d7c1d1d331c3e714c349';
 var mapKey = 'pk.eyJ1Ijoic2FuZHlnaWxmaWxsYW4iLCJhIjoiY2luOWg3NGt2MXRqaHR5bHlibWc0c2t1diJ9.yQYGYNLuWKMFPvWoPZAyYg';
 var markers = [];
 var z;
-var lat = 47.6;
-var lon = -122.3;
+var lat = '&lat=47.63522';
+var lon = '&lon=-122.344272';
 var r = '&radius=' + radius.toString();
 
 /* GET home page. */
@@ -32,6 +30,14 @@ router.get('/map', function(req, res, next) {
   var parseData = (JSON.parse(data));
   for(var i = 0; i < parseData.results.length; i++) {
     var marker = parseData.results[i];
+    var date = new Date(marker.time);
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >=12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    marker.time = hours + ':' + minutes + " " + ampm;
     if(parseData.results[i].hasOwnProperty('venue')) {
       markers.push({
         type: 'Feature',
@@ -45,15 +51,18 @@ router.get('/map', function(req, res, next) {
           'marker-symbol': 'star',
           'marker-color': '#ff8888',
           'marker-size': 'large',
-          'city': marker.name
+          'name': marker.name,
+          'description': marker.description,
+          'rsvp': marker.yes_rsvp_count,
+          'startTime': marker.time
         }
         });
       }
     }
     res.render('map', {
       markers: JSON.stringify(markers),
-      lat: req.query.lat,
-      lon: req.query.lon
+      lat: req.query.lat || 47.63522,
+      lon: req.query.lon || -122.344272
     })
   });
 });
