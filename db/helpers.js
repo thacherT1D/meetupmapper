@@ -3,6 +3,7 @@ var queries = require('./queries');
 var rp = require('request-promise');
 
 var key = '7731a58403d7c1d1d331c3e714c349';
+var mapKey = 'pk.eyJ1Ijoic2FuZHlnaWxmaWxsYW4iLCJhIjoiY2luOWg3NGt2MXRqaHR5bHlibWc0c2t1diJ9.yQYGYNLuWKMFPvWoPZAyYg';
 
 // *** MEETUP API FUNCTIONS *** //
 
@@ -30,6 +31,15 @@ function get_events (zipcode, category) {
       }
     }
     return markers;
+  });
+}
+
+function convert_zip (userZip) {
+  return rp({uri:'https://api.mapbox.com/geocoding/v5/mapbox.places/'+userZip+'.json?country=us&proximity=39.8977%2C%2077.0365&autocomplete=true&access_token='+mapKey}) .then(function(data) {
+    var parseD = (JSON.parse(data));
+    var lon = parseD.features[0].center[0];
+    var lat = parseD.features[0].center[1];
+    return lat, lon;
   });
 }
 
@@ -86,6 +96,7 @@ module.exports = {
   user_rsvp: user_rsvp,
   user_like_event: user_like_event,
   user_unlike_event: user_unlike_event,
+  convert_zip: convert_zip,
   get_events: get_events,
   display_event: display_event,
   map_add_events: map_add_events
