@@ -17,40 +17,42 @@
     <script>
     L.mapbox.accessToken = 'pk.eyJ1IjoiYXVzdGluc3ByYWd1ZSIsImEiOiJjaW44ZWxxYTQwdmIzd3pseWJqd2EyeWI1In0.TJwbshYK7dxYgnDhd87rDA';
     var map = L.mapbox.map('map', 'mapbox.streets')
-      .setView([43.229, -79.453], 5);
-      // .setView([{{{lat}}}, {{{lon}}}], 9);
+      .setView([{{{lat}}}, {{{lon}}}], 9);
 
       var myLayer = L.mapbox.featureLayer().addTo(map);
 
-      // var geoJson = {{{markers}}};
-
-      var geoJson = [{
+      {{#if markers}}
+        var geoJson = {{{markers}}};
+      {{else}}
+        var geoJson = [{
           type: 'Feature',
           "geometry": { "type": "Point", "coordinates": [-77.03, 38.90]},
           "properties": {
-              "url": "https://en.wikipedia.org/wiki/Washington,_D.C.",
-              // "marker-symbol": "star",
-              "marker-color": "#ff8888",
-              // "marker-size": "large",
-              "city": "Washington, D.C."
+            "url": "https://en.wikipedia.org/wiki/Washington,_D.C.",
+            // "marker-symbol": "star",
+            "marker-color": "#ff8888",
+            // "marker-size": "large",
+            "city": "Washington, D.C."
           }
-      }, {
+        }, {
           type: 'Feature',
           "geometry": { "type": "Point", "coordinates": [-87.63, 41.88]},
           "properties": {
-              "url": "https://en.wikipedia.org/wiki/Chicago",
-              "marker-color": "#ff8888",
-              "city": "Chicago"
+            "url": "https://en.wikipedia.org/wiki/Chicago",
+            "marker-color": "#ff8888",
+            "city": "Chicago"
           }
-      }, {
+        }, {
           type: 'Feature',
           "geometry": { "type": "Point", "coordinates": [-74.00, 40.71]},
           "properties": {
-              "url": "https://en.wikipedia.org/wiki/New_York_City",
-              "marker-color": "#ff8888",
-              "city": "New York City"
+            "url": "https://en.wikipedia.org/wiki/New_York_City",
+            "marker-color": "#ff8888",
+            "city": "New York City"
           }
-      }];
+        }];
+      {{/if}}  
+
 
       // Add custom popups to each using our custom feature properties
       myLayer.on('layeradd', function(e) {

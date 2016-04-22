@@ -21,8 +21,12 @@ router.get('/events', function(req, res, next) {
 router.post('/', function(req, res, next) {
   helpers.convert_zip(req.body.zipcode).then(latlong => {
     helpers.get_events(latlong.lat, latlong.lon, req.body.categories).then(result => {
-      var markers = JSON.stringify(result[0]);
-      res.render('index', { markers: markers, details: result[1]});
+      res.render('index', {
+        markers: JSON.stringify(result[0]),
+        lat: latlong.lat,
+        lon: latlong.lon,
+        details: result[1]
+      });
     });
   });
 });
