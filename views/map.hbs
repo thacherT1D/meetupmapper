@@ -29,7 +29,13 @@ myLayer.on('layeradd', function(e) {
         feature = marker.feature;
 
     // Create custom popup content
+<<<<<<< HEAD
     var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.url + '">' + '<img src="' + feature.properties.image + '" />' + feature.properties.city + '</a>';
+=======
+    var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.url + '">' +
+                            '<img src="' + feature.properties.image + '" />' + "Event: " +
+                            feature.properties.name + "</a> </br>RSVP Count: " + feature.properties.rsvp + "</br>Time: " + feature.properties.startTime;
+>>>>>>> b07491851e725faa54a987a30da429e70c3a1355
 
     // http://leafletjs.com/reference.html#popup
     marker.bindPopup(popupContent,{

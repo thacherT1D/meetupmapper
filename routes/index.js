@@ -32,6 +32,14 @@ router.get('/map', function(req, res, next) {
   var parseData = (JSON.parse(data));
   for(var i = 0; i < parseData.results.length; i++) {
     var marker = parseData.results[i];
+    var date = new Date(marker.time);
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >=12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    marker.time = hours + ':' + minutes + " " + ampm;
     if(parseData.results[i].hasOwnProperty('venue')) {
       markers.push({
         type: 'Feature',
@@ -45,7 +53,10 @@ router.get('/map', function(req, res, next) {
           'marker-symbol': 'star',
           'marker-color': '#ff8888',
           'marker-size': 'large',
-          'city': marker.name + marker.description
+          'name': marker.name,
+          'description': marker.description,
+          'rsvp': marker.yes_rsvp_count,
+          'startTime': marker.time
         }
         });
       }
