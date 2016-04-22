@@ -30,11 +30,30 @@
       {{else}}
         var geoJson = [{
           type: 'Feature',
+          "geometry": { "type": "Point", "coordinates": [-77.03, 38.90]},
+          "properties": {
+            "url": "https://en.wikipedia.org/wiki/Washington,_D.C.",
+            // "marker-symbol": "star",
+            "marker-color": "#ff8888",
+            // "marker-size": "large",
+            "city": "Washington, D.C."
+          }
+        }, {
+          type: 'Feature',
+          "geometry": { "type": "Point", "coordinates": [-87.63, 41.88]},
+          "properties": {
+            "url": "https://en.wikipedia.org/wiki/Chicago",
+            "marker-color": "#ff8888",
+            "city": "Chicago"
+          }
+        }, {
+          type: 'Feature',
           "geometry": { "type": "Point", "coordinates": [-74.00, 40.71]},
           "properties": {
             "url": "https://en.wikipedia.org/wiki/New_York_City",
             "marker-color": "#ff8888",
-            "city": "New York City" }
+            "city": "New York City"
+          }
         }];
       {{/if}}
 
@@ -49,7 +68,7 @@
                             + '<br>'
                             + '<a target="_blank" class="popup" href="/rsvp">RSVP</a>'
                             + '<br>'
-                            + '<p>' + feature.properties.
+                            + '<p>' + feature.properties.description;
 
           // http://leafletjs.com/reference.html#popup
           marker.bindPopup(popupContent,{
