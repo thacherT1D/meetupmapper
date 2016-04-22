@@ -75,7 +75,8 @@ function get_events2 (lat, lon, category) {
         });
       }
     }
-    return markers, details;
+    var markers_details = [markers,details];
+    return markers_details;
   });
 }
 
