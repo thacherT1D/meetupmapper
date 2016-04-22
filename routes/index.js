@@ -1,50 +1,40 @@
 var express = require('express');
 var router = express.Router();
+
 var rp = require('request-promise');
+
 var helpers = require('../db/helpers');
 var queries = require('../db/queries');
+//var validations = require('./validations');
+//var auth = require('./auth');
 
-var userZip = 98122;
-var radius = 50;
-var userLat;
-var userLon;
-var key = '7731a58403d7c1d1d331c3e714c349';
-var markers = [];
+//var radius = 50;
+//var userLat;
+//var userLon;
 
-var r = '&radius=' + radius.toString();
-var z = '&zip=' + userZip.toString();
+// var r = '&radius=' + radius.toString();
+// var z = '&zip=' + userZip.toString();
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  rp({uri:'https://api.meetup.com/2/open_events?key='+key+z+r+'&status=upcoming'
-}).then(function(data) {
-  var parseData = (JSON.parse(data));
-  for(var i = 0; i < parseData.results.length; i++) {
-    var marker = parseData.results[i];
-    if(parseData.results[i].hasOwnProperty('venue')) {
-      markers.push({
-        eventId: marker.id,
-        eventName: marker.name,
-        eventUrl: marker.event_url,
-        fee: marker.fee,
-        venueName: marker.venue.name,
-        rsvpCount: marker.yes_rsvp_count,
-        rsvpLimit: marker.rsvp_limit,
-        lat: marker.venue.lat,
-        lon: marker.venue.lon,
-        venuePhone: marker.venue.phone,
-        description: marker.description,
-        // groupPhoto: marker.group,
-      });
-    }
-  }
-  console.log(markers[0]);
-  res.render('index', { markers: markers });
-  })
+  res.render('index');
 });
 
-// router.post('/', function(req, res, next) {
+router.get('/events', function(req, res, next) {
+  //helpers.getEvents();
+});
 
-// };
+router.post('/', function(req, res, next) {
+
+
+/* *** THIS SHIT WORKS DO NOT THROW IT AWAY ***
+  helpers.convert_zip(req.body.zipcode).then(lat => {
+    console.log(lat, lon);
+  });
+
+  helpers.get_events(req.body.zipcode, req.body.categories).then(markers => {
+    console.log(markers);
+  });
+*/
+});
 
 module.exports = router;
