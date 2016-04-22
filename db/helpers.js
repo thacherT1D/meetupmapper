@@ -12,7 +12,7 @@ function get_events (lat, lon, category) {
   var details = [];
   var userLat = '&lat=' + lat;
   var userLon = '&lon=' + lon;
-  var userCategory = '&category=' + category;
+  var userCategory = '&category=' + parseInt(category);
   return rp({ uri: 'https://api.meetup.com/2/open_events?key=' + key + userLat + userLon + userCategory + '&status=upcoming' }).then(function(data) {
     markers = [];
     var eventData = (JSON.parse(data));

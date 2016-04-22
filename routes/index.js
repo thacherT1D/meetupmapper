@@ -19,11 +19,9 @@ router.get('/events', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  // var lat = '47.63522';
-  // var lon = '-122.344272';
   helpers.convert_zip(req.body.zipcode).then(latlong => {
     helpers.get_events(latlong.lat, latlong.lon, req.body.categories).then(result => {
-      console.log(markers_details);
+      console.log(result);
     });
   });
 });
