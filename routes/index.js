@@ -19,8 +19,10 @@ router.get('/events', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  helpers.get_events2(lat, lon, req.body.categories).then(markers => {
-    console.log(markers);
+  var lat = '47.63522';
+  var lon = '-122.344272';
+  helpers.get_events2(lat, lon, req.body.categories).then(markers, details => {
+    console.log(details);
   });
 
 /* *** THIS SHIT WORKS DO NOT THROW IT AWAY ***

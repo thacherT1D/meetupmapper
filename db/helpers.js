@@ -35,10 +35,11 @@ function get_events (zipcode, category) {
 }
 
 function get_events2 (lat, lon, category) {
-  var userZip = '&zip=' + zipcode;
   var markers = [];
   var details = [];
-  return rp({ uri: 'https://api.meetup.com/2/open_events?key=' + key + lat + lon + '&status=upcoming' }).then(function(data) {
+  var userLat = '&lat=' + lat;
+  var userLon = '&lon=' + lon;
+  return rp({ uri: 'https://api.meetup.com/2/open_events?key=' + key + userLat + userLon + '&status=upcoming' }).then(function(data) {
     markers = [];
     var eventData = (JSON.parse(data));
     for(var i = 0; i < eventData.results.length; i++) {
@@ -79,7 +80,7 @@ function get_events2 (lat, lon, category) {
 }
 
 function convert_zip (userZip) {
-  return rp({uri:'https://api.mapbox.com/geocoding/v5/mapbox.places/'+userZip+'.json?country=us&proximity=39.8977%2C%2077.0365&autocomplete=true&access_token='+mapKey}) .then(function(data) {
+  return rp({ uri:'https://api.mapbox.com/geocoding/v5/mapbox.places/' + userZip + '.json?country=us&proximity=39.8977%2C%2077.0365&autocomplete=true&access_token=' + mapKey }) .then(function(data) {
     var parseD = (JSON.parse(data));
     var lon = parseD.features[0].center[0];
     var lat = parseD.features[0].center[1];
@@ -142,6 +143,7 @@ module.exports = {
   user_unlike_event: user_unlike_event,
   convert_zip: convert_zip,
   get_events: get_events,
+  get_events2: get_events2,
   display_event: display_event,
   map_add_events: map_add_events
 }
