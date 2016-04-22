@@ -24,17 +24,16 @@ a {
   margin: 5px 0px 0px 10px;
   background-color: #958F8F;
   border-radius: 10px 10px 0px 0px;
-  /*overflow: auto;*/
-  /*max-height: 80vh;*/
   width: 30%;
   float: right;
 }
 #display {
-  margin: 0px 0px 10px 10px;
+  margin: 5px 0px 10px 10px;
   background-color: #958F8F;
-  border-radius: 0px 0px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
   overflow: auto;
   max-height: 75vh;
+
   width: 30%;
   float: right;
 }
@@ -47,7 +46,9 @@ a {
 .submit {
   margin: 0px 5px 10px 0px;
 }
-
 #categories {
-
+  min-height: 30vh;
+}
+.popupText {
+  font-size: 20px;
 }

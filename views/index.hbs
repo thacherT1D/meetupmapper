@@ -1,22 +1,17 @@
 <div id="container">
-  <div class="row"><
-    <div id="displayTop" class="col-md-12">
-        <h1>Search</h1>
-    </div>
-  </div>
   <div class="row">
     <div id="display" class="col-md-12">
-      <p>
-        Find meetups near you
-      </p>
+      <h1>Search</h1>
+      <p>Find meetups near you</p>
       <form method="POST" action="/">
         <fieldset class="form-group">
-          <label for="zipcode">Zipcode</label>
-          <input id="zipcode" name='zipcode' class="form-control"  placeholder="12345">
+          <label for="zipcode">Zipcode <small>(Required)</small></label>
+
+          <input id="zipcode" name='zipcode' class="form-control"  placeholder="12345" required>
         </fieldset>
-        <fieldset class="form-group">
-          <label for="categories">Categories</label>
-          <select multiple class="form-control" name='categories' id="categories">
+        <fieldset id="categories" class="form-group">
+          <label for="categories">Categories <small>(Choose At Least One)</small></label>
+          <select multiple class="form-control" name='categories' id="categories" required="">
             <option value="1">Arts & Culture</option>
             <option value="18">Book Clubs</option>
             <option value="2">Career & Business</option>

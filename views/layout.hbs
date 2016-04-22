@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{title}}</title>
+    <title>MeetUpMappr</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
     <link rel="stylesheet" href="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/css/bootstrap.css"/>
-    <!-- <script src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script> -->
+
 
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
@@ -20,7 +20,8 @@
       {{#if lat}}
         .setView([{{{lat}}}, {{{lon}}}], 9);
       {{else}}
-        .setView([40.71, -74.00], 9);
+        // .setView([40.71, -74.00], 9);
+        .setView([47.6062, -122.3321], 9);
       {{/if}}
 
       var myLayer = L.mapbox.featureLayer().addTo(map);
@@ -45,16 +46,16 @@
               feature = marker.feature;
 
           // Create custom popup content
-          var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.url + '">' + feature.properties.name + '</a>'
-                            + '<br>'
-                            + '<a target="_blank" class="popup" href="/rsvp">RSVP</a>'
+          var popupContent =  '<a target="_blank" class="popup popupText" href="' + feature.properties.url + '">' + feature.properties.name + '</a>'
+                            // + '<br>'
+                            // + '<a target="_blank class="popup popupText" href="http://www.meetup.com">RSVP</a>'
                             + '<br>'
                             //+ '<p>' + feature.properties.description;
-                            + '<p> date: ' + feature.properties.date
+                            + '<p class="popupText"> Date: ' + feature.properties.date
                             + '<br>'
-                            + '<p> time: ' + feature.properties.startTime
+                            + '<p class="popupText"> Time: ' + feature.properties.startTime
                             + '<br>'
-                            + '<p>' + feature.properties.description;
+                            + '<p>' + feature.properties.description + '...';
 
           // http://leafletjs.com/reference.html#popup
           marker.bindPopup(popupContent,{
@@ -69,7 +70,7 @@
     </script>
     <div>
       <nav class="navbar navbar-light bg-faded">
-        <a class="navbar-brand" href="#">MeetUpMappr</a>
+        <a class="navbar-brand" href="/">MeetUpMappr</a>
         <ul class="nav navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="/auth/meetup">Login</a>
