@@ -26,11 +26,11 @@ router.get('/map', function(req, res, next) {
     lat = '&lat=' + req.query.lat;
     lon = '&lon=' + req.query.lon;
   }
-  if(req.query.category) {
-    category = '&category=' + req.query.category;
-  }
+  // if(req.query.category) {
+  //   category = '&category=' + req.query.category;        //production line
+  // }
+  category= '&category=30';              //////////test line
 
-  console.log('https://api.meetup.com/2/open_events?key='+key+lat+lon+category+'&status=upcoming');
   rp({uri:'https://api.meetup.com/2/open_events?key='+key+lat+lon+category+'&status=upcoming'
 }).then(function(data) {
   markers = [];
@@ -38,16 +38,24 @@ router.get('/map', function(req, res, next) {
   for(var i = 0; i < parseData.results.length; i++) {
     var marker = parseData.results[i];
 
+    // console.log(marker);
+
     var date = new Date(marker.time);
+    // console.log(date);
     var hours = date.getHours();
     var minutes = date.getMinutes();
+
     var ampm = hours >=12 ? 'pm' : 'am';
+    var day = date.getDate();
+    var month = date.getMonth();
+    var year = date.getYear();
+    var dateFormatted = month.toString() + '/'+ day.toString();
+
+    console.log(dateFormatted);
     hours = hours % 12;
     hours = hours ? hours : 12;
     minutes = minutes < 10 ? '0' + minutes : minutes;
     marker.time = hours + ':' + minutes + " " + ampm;
-
-    console.log(marker.group);
 
     if(parseData.results[i].hasOwnProperty('venue')) {
       markers.push({
@@ -65,7 +73,8 @@ router.get('/map', function(req, res, next) {
           'name': marker.name,
           'description': marker.description,
           'rsvp': marker.yes_rsvp_count,
-          'startTime': marker.time
+          'startTime': marker.time,
+          'date': dateFormatted
         }
         });
       }
@@ -80,7 +89,8 @@ router.get('/map', function(req, res, next) {
 
 router.post('/zip', function(req, res, next) {
   userZip = req.body.zip;
-  category = req.body.category;
+  // category = req.body.category;  //for production
+  category = 30;                     // for testing
 
   rp({uri:'https://api.mapbox.com/geocoding/v5/mapbox.places/'+userZip+'.json?country=us&proximity=39.8977%2C%2077.0365&autocomplete=true&access_token='+mapKey})
   .then(function(data) {
