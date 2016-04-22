@@ -18,7 +18,15 @@ function get_events (lat, lon, category) {
     var eventData = (JSON.parse(data));
     for(var i = 0; i < eventData.results.length; i++) {
       var marker = eventData.results[i];
+
       if(eventData.results[i].hasOwnProperty('venue')) {
+        var date_time = get_date_time(marker);
+
+        var short_desc = '';
+        if(marker.description) {
+          short_desc = marker.description.substring(0, 250);
+        }
+
         markers.push({
           type: 'Feature',
           geometry: {
@@ -29,11 +37,16 @@ function get_events (lat, lon, category) {
             image: '',
             url: marker.event_url,
             'marker-symbol': 'star',
-            'marker-color': '#ff8888',
+            'marker-color': '#48d1cc',
             'marker-size': 'large',
-            'city': marker.name
+            'name': marker.name,
+            'rsvp': marker.yes_rsvp_count,
+            'startTime': date_time[1],
+            'date': date_time[0],
+            'description': short_desc
           }
         });
+
         details.push({
           eventId: marker.id,
           eventName: marker.name,
@@ -45,7 +58,7 @@ function get_events (lat, lon, category) {
           lat: marker.venue.lat,
           lon: marker.venue.lon,
           venuePhone: marker.venue.phone,
-          description: marker.description,
+          description: short_desc,
         });
       }
     }
@@ -62,6 +75,25 @@ function convert_zip (userZip) {
     var latlong = { lat: lat, lon: lon };
     return latlong;
   });
+}
+
+function get_date_time (marker) {
+  var date = new Date(marker.time);
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+
+  var ampm = hours >=12 ? 'pm' : 'am';
+  var day = date.getDate();
+  var month = date.getMonth();
+  var year = date.getYear();
+  var fullDate = month.toString() + '/'+ day.toString();
+
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+  fullTime = hours + ':' + minutes + " " + ampm;
+
+  return([fullDate, fullTime]);
 }
 
 function display_event (eventID) {

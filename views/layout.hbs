@@ -45,9 +45,14 @@
               feature = marker.feature;
 
           // Create custom popup content
-          var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.url + '">' + feature.properties.city + '</a>'
+          var popupContent =  '<a target="_blank" class="popup" href="' + feature.properties.url + '">' + feature.properties.name + '</a>'
                             + '<br>'
                             + '<a target="_blank" class="popup" href="/rsvp">RSVP</a>'
+                            + '<br>'
+                            //+ '<p>' + feature.properties.description;
+                            + '<p> date: ' + feature.properties.date
+                            + '<br>'
+                            + '<p> time: ' + feature.properties.startTime
                             + '<br>'
                             + '<p>' + feature.properties.description;
 
