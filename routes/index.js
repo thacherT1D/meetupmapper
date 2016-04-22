@@ -9,11 +9,6 @@ var queries = require('../db/queries');
 //var auth = require('./auth');
 
 //var radius = 50;
-//var userLat;
-//var userLon;
-
-// var r = '&radius=' + radius.toString();
-// var z = '&zip=' + userZip.toString();
 
 router.get('/', function(req, res, next) {
   res.render('index');
@@ -24,17 +19,11 @@ router.get('/events', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-
-
-// *** THIS SHIT WORKS DO NOT THROW IT AWAY ***
-//   helpers.convert_zip(req.body.zipcode).then(lat => {
-//     console.log(lat, lon);
-//   });
-
-  helpers.get_events(req.body.zipcode, req.body.categories).then(markers => {
-    console.log(markers);
+  helpers.convert_zip(req.body.zipcode).then(latlong => {
+    helpers.get_events(latlong.lat, latlong.lon, req.body.categories).then(result => {
+      console.log(result);
+    });
   });
-
 });
 
 module.exports = router;
