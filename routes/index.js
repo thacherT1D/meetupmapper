@@ -26,12 +26,9 @@ router.get('/map', function(req, res, next) {
     lat = '&lat=' + req.query.lat;
     lon = '&lon=' + req.query.lon;
   }
-
-  // if(req.query.category) {
-  //   category = '&category=' + req.query.category;
-  // }
-
-  category = '&category=30';
+  if(req.query.category) {
+    category = '&category=' + req.query.category;
+  }
 
   console.log('https://api.meetup.com/2/open_events?key='+key+lat+lon+category+'&status=upcoming');
   rp({uri:'https://api.meetup.com/2/open_events?key='+key+lat+lon+category+'&status=upcoming'
