@@ -7,39 +7,13 @@ var mapKey = 'pk.eyJ1Ijoic2FuZHlnaWxmaWxsYW4iLCJhIjoiY2luOWg3NGt2MXRqaHR5bHlibWc
 
 // *** MEETUP API FUNCTIONS *** //
 
-function get_events (zipcode, category) {
-  var userZip = '&zip=' + zipcode;
-  var markers = [];
-  return rp({ uri:'https://api.meetup.com/2/open_events?key=' + key + userZip +'&status=upcoming'}).then(function(data) {
-    var eventData = (JSON.parse(data));
-    for(var i = 0; i < eventData.results.length; i++) {
-      var marker = eventData.results[i];
-      if (eventData.results[i].hasOwnProperty('venue')) {
-        markers.push({
-          eventId: marker.id,
-          eventName: marker.name,
-          eventUrl: marker.event_url,
-          fee: marker.fee,
-          venueName: marker.venue.name,
-          rsvpCount: marker.yes_rsvp_count,
-          rsvpLimit: marker.rsvp_limit,
-          lat: marker.venue.lat,
-          lon: marker.venue.lon,
-          venuePhone: marker.venue.phone,
-          description: marker.description,
-        });
-      }
-    }
-    return markers;
-  });
-}
-
-function get_events2 (lat, lon, category) {
+function get_events (lat, lon, category) {
   var markers = [];
   var details = [];
   var userLat = '&lat=' + lat;
   var userLon = '&lon=' + lon;
-  return rp({ uri: 'https://api.meetup.com/2/open_events?key=' + key + userLat + userLon + '&status=upcoming' }).then(function(data) {
+  var userCategory = '&category=' + category;
+  return rp({ uri: 'https://api.meetup.com/2/open_events?key=' + key + userLat + userLon + userCategory + '&status=upcoming' }).then(function(data) {
     markers = [];
     var eventData = (JSON.parse(data));
     for(var i = 0; i < eventData.results.length; i++) {
@@ -85,7 +59,8 @@ function convert_zip (userZip) {
     var parseD = (JSON.parse(data));
     var lon = parseD.features[0].center[0];
     var lat = parseD.features[0].center[1];
-    return lat, lon;
+    var latlong = { lat: lat, lon: lon };
+    return latlong;
   });
 }
 
@@ -144,7 +119,6 @@ module.exports = {
   user_unlike_event: user_unlike_event,
   convert_zip: convert_zip,
   get_events: get_events,
-  get_events2: get_events2,
   display_event: display_event,
   map_add_events: map_add_events
 }
